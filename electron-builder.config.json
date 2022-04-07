@@ -1,0 +1,30 @@
+{
+  "appId": "com.electron.fostr",
+  "productName": "FOSTR",
+  "copyright": "GNU General Public License v3.0",
+  "files": [
+    "node_modules/**/*",
+    "build/**/*"
+  ],
+  "directories": {
+    "buildResources": "assets",
+    "output": "dist"
+  },
+  "win": {
+    "target": "nsis",
+    "icon": "assets/icon_256x256.png"
+  },
+  "linux": {
+    "target": [
+      "deb",
+      "AppImage"
+    ],
+    "icon": "assets/icon_512x512.png",
+    "category": "utility"
+  },
+  "mac": {
+    "target": "dmg",
+    "icon": "assets/icon_512x512.png",
+    "category": "public.app-category.utilities"
+  }
+}

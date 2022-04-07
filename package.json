@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "rm -rf build/ && webpack -c ./webpack.electron.config.js && concurrently \"webpack s -c ./webpack.web.config.js\" \"wait-on http://localhost:9000/ && cross-env NODE_ENV=development ELECTRON_DISABLE_SECURITY_WARNINGS=true electron ./build/electron.js\"",
-    "build": "rm -rf build/ && webpack -c ./webpack.electron.config.js && webpack -c ./webpack.web.config.js",
-    "build-linux": "npm run build && electron-builder -l",
-    "build-mac": "npm run build && electron-builder -m",
-    "build-windows": "npm run build && electron-builder -w"
+    "build": "rm -rf build/ && webpack -c ./webpack.electron.config.js --mode=production && webpack -c ./webpack.web.config.js --mode=production",
+    "build-linux": "npm run build && electron-builder -c ./electron-builder.config.json -l",
+    "build-mac": "npm run build && electron-builder -c ./electron-builder.config.json -m",
+    "build-windows": "npm run build && electron-builder -c ./electron-builder.config.json -w"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "css-loader": "^6.7.1",
     "electron": "^18.0.2",
     "electron-builder": "^22.14.13",
+    "electron-context-menu": "^3.1.2",
     "electron-devtools-installer": "^3.2.0",
     "electron-store": "^8.0.1",
     "html-webpack-plugin": "^5.5.0",
