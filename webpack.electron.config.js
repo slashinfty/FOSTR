@@ -5,7 +5,7 @@ module.exports = [
         target: 'electron-main',
         module: {
         rules: [{
-            test: /\.ts$/,
+            test: /\.ts$/i,
             include: /src/,
             use: ['ts-loader']
         }]

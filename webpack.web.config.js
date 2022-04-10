@@ -12,14 +12,20 @@ module.exports = [
         module: {
             rules: [
                 {
-                    test: /\.ts(x?)$/,
-                    include: /src/,
+                    test: /\.ts(x?)$/i,
                     use: ['ts-loader']
                 },
                 {
-                    test: /\.css$/,
-                    include: /src/,
-                    use: ['css-loader']
+                    test: /\.css$/i,
+                    use: ['css-loader'],
+                },
+                {
+                    test: /\.ttf$/i,
+                    type: 'asset/resource',
+                },
+                {
+                    test: /\.svg$/i,
+                    type: 'asset/inline'
                 }
             ]
         },
