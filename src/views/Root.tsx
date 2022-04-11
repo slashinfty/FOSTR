@@ -15,10 +15,9 @@ export const Root = () => {
     const handleLoad = async () => {
         const tournament = await window.electron.loadTournament();
         if (tournament === undefined) {
-            console.log('undefined');
             return;
         }
-        console.log(tournament);
+        console.log(tournament); //TODO
     }
 
     return (
