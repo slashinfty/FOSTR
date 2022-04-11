@@ -7,7 +7,7 @@ module.exports = [
         target: 'web',
         devtool: 'source-map',
         resolve: {
-            extensions: ['.js', '.jsx', '.ts', '.tsx']
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
         module: {
             rules: [

@@ -4,13 +4,22 @@ import {
     Box,
     Button,
     Container,
-    Icon
+    Tooltip
 } from '@mui/material';
+
+declare const window: any;
 
 const logo = new URL('../assets/fostr.svg', import.meta.url).toString();
 
 export const Root = () => {
-    //states?
+    const handleLoad = async () => {
+        const tournament = await window.electron.loadTournament();
+        if (tournament === undefined) {
+            console.log('undefined');
+            return;
+        }
+        console.log(tournament);
+    }
 
     return (
         <Container
@@ -26,7 +35,21 @@ export const Root = () => {
                     maxWidth: '50%'
                 }}
             >
-                <img src={logo} width={'100%'} />
+                <Tooltip
+                    title={
+                        <React.Fragment>
+                            <Box
+                                sx={{
+                                    textAlign: 'center'
+                                }}
+                            >
+                                Version 0.0.1<br /><br />Released 11 April 2022
+                            </Box>
+                        </React.Fragment>
+                    }
+                >
+                    <img src={logo} width={'100%'} />
+                </Tooltip>
             </Box>
             <Box
                 sx={{
@@ -50,6 +73,7 @@ export const Root = () => {
                 </Button>
                 <Button
                     variant='outlined'
+                    onClick={() => handleLoad()}
                 >
                     Load Tournament
                 </Button>
