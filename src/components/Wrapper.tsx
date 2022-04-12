@@ -15,10 +15,12 @@ import {
 } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MenuIcon from '@mui/icons-material/Menu';
+import useGlobalState from '@vighnesh153/use-global-state';
 
 export const Wrapper = () => {
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [appBarText, setAppBarText] = React.useState('FOSTR');
+    const [tournament, setTournament] = useGlobalState('tournament');
 
     return(
         <Container>
@@ -27,7 +29,10 @@ export const Wrapper = () => {
             >
                 <Box
                     component='div'
-                    onClick={() => setOpenDrawer(false)}
+                    onClick={() => {
+                        console.log(tournament);
+                        setOpenDrawer(false);
+                    }}
                 >
                     <List dense={true}>
                         <ListItem>

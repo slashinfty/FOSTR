@@ -40,7 +40,9 @@ module.exports = [
         ],
         devServer: {
             static: './build',
-            port: 9000
+            port: 9000,
+            hot: true,
+            historyApiFallback: true
         }
     }
 ];

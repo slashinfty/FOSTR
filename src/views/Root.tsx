@@ -6,28 +6,31 @@ import {
     Container,
     Tooltip
 } from '@mui/material';
+import useGlobalState from '@vighnesh153/use-global-state';
 
 declare const window: any;
 
 const logo = new URL('../assets/fostr.svg', import.meta.url).toString();
 
 export const Root = () => {
+    const [tournament, setTournament] = useGlobalState('tournament', {}); //TODO update to saved for continue
+
     const handleLoad = async () => {
-        const tournament = await window.electron.loadTournament();
-        if (tournament === undefined) {
+        const loadedTournament = await window.electron.loadTournament();
+        if (loadedTournament === undefined) {
             return;
         }
-        console.log(tournament); //TODO
+        //TODO
     }
 
     return (
         <Container
+            maxWidth='md'
             sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 marginTop: '20%'
             }}
-            maxWidth='md'
         >
             <Box
                 sx={{
@@ -61,17 +64,20 @@ export const Root = () => {
                 <Button
                     variant='outlined'
                     component={Link}
-                    to={'new'}
+                    to={'setup'}
+                    disableRipple={true}
                 >
                     New Tournament
                 </Button>
                 <Button
                     variant='outlined'
+                    disableRipple={true}
                 >
                     Continue Tournament
                 </Button>
                 <Button
                     variant='outlined'
+                    disableRipple={true}
                     onClick={() => handleLoad()}
                 >
                     Load Tournament
