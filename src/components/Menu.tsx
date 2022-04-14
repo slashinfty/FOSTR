@@ -8,20 +8,25 @@ import {
     ListItemButton,
     ListItemText
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 export const Menu = (props) => {
+    const theme = useTheme();
+    const colorMode = props.colorMode;
+
     return (
         <Drawer
             open={props.openDrawer}
         >
             <Box
                 component='div'
-                onClick={() => props.setOpenDrawer(false)}
             >
                 <List dense={true}>
                     <ListItem>
-                        <ListItemButton>
+                        <ListItemButton
+                            onClick={() => props.setOpenDrawer(false)}
+                        >
                             <ChevronLeftIcon />
                         </ListItemButton>
                     </ListItem>
@@ -68,6 +73,13 @@ export const Menu = (props) => {
                         </ListItemButton>
                     </ListItem>
                     <Divider />
+                    <ListItem>
+                        <ListItemButton
+                            onClick={colorMode.toggleColorMode}
+                        >
+                            <ListItemText primary={theme.palette.mode === 'dark' ? 'Dark Mode' : 'Light Mode'} />
+                        </ListItemButton>
+                    </ListItem>
                     <ListItem>
                         <ListItemButton>
                             <ListItemText primary='Settings' />

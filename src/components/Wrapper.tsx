@@ -9,15 +9,22 @@ import useGlobalState from '@vighnesh153/use-global-state';
 import { Header } from './Header';
 import { Menu } from './Menu';
 
-export const Wrapper = () => {
+export const Wrapper = (props) => {
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [appBarText, setAppBarText] = React.useState('FOSTR');
     const [tournament, setTournament] = useGlobalState('tournament');
 
     return(
         <Container>
-            <Menu openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
-            <Header setOpenDrawer={setOpenDrawer} appBarText={appBarText} />
+            <Menu 
+                openDrawer={openDrawer}
+                setOpenDrawer={setOpenDrawer}
+                colorMode={props.colorMode}
+            />
+            <Header
+                setOpenDrawer={setOpenDrawer}
+                appBarText={appBarText}
+            />
             <Box>
                 <Outlet context={[appBarText, setAppBarText]}/>
             </Box>
