@@ -3,6 +3,8 @@ import * as ReactDOMClient from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import Zoom from '@mui/material/Zoom';
+import { SnackbarProvider } from 'notistack';
 
 import './index.css';
 import { Root } from './views/Root';
@@ -27,16 +29,25 @@ const App = () => {
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <BrowserRouter>
-                    <Routes>
-                        <Route path='/' element={<Root />} />
-                        <Route path='/setup' element={<Setup />} />
-                        <Route path='/fostr' element={<Wrapper colorMode={colorMode} />}>
+                <SnackbarProvider 
+                    maxSnack={4}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    TransitionComponent={Zoom}
+                >
+                    <CssBaseline />
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path='/' element={<Root />} />
+                            <Route path='/setup' element={<Setup />} />
+                            <Route path='/fostr' element={<Wrapper colorMode={colorMode} />}>
 
-                        </Route>
-                    </Routes>
-                </BrowserRouter>
+                            </Route>
+                        </Routes>
+                    </BrowserRouter>
+                </SnackbarProvider>
             </ThemeProvider>
         </ColorModeContext.Provider>
     )

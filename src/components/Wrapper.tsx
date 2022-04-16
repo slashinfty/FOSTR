@@ -14,6 +14,8 @@ export const Wrapper = (props) => {
     const [appBarText, setAppBarText] = React.useState('FOSTR');
     const [tournament, setTournament] = useGlobalState('tournament');
 
+    React.useEffect(() => console.log(tournament));
+
     return(
         <Container>
             <Menu 
