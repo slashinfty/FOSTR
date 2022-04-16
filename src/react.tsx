@@ -10,10 +10,12 @@ import './index.css';
 import { Root } from './views/Root';
 import { Setup } from './views/Setup';
 import { Wrapper } from './components/Wrapper';
+import { Meta } from './views/Meta';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 const App = () => {
+    const [tournament, setTournament] = React.useState({}); //TODO default based on stored settings
     const [mode, setMode] = React.useState<'light' | 'dark'>('light'); //TODO default based on stored settings
     const colorMode = React.useMemo(
         () => ({
@@ -41,9 +43,9 @@ const App = () => {
                     <BrowserRouter>
                         <Routes>
                             <Route path='/' element={<Root />} />
-                            <Route path='/setup' element={<Setup />} />
-                            <Route path='/fostr' element={<Wrapper colorMode={colorMode} />}>
-
+                            <Route path='/setup' element={<Setup setTournament={setTournament} />} />
+                            <Route path='/fostr' element={<Wrapper colorMode={colorMode} tournament={tournament} setTournament={setTournament} />}>
+                                <Route path='/fostr/meta' element={<Meta />} />
                             </Route>
                         </Routes>
                     </BrowserRouter>

@@ -13,12 +13,14 @@ import {
 import { useSnackbar } from 'notistack';
 import useGlobalState from '@vighnesh153/use-global-state';
 
-import { Tiebreaks } from './Tiebreaks';
-import { Manager } from '../core/Manager';
+const TournamentOrganizer = require('tournament-organizer').default;
 
-export const SetupForm = () => {
+import { Tiebreaks } from './Tiebreaks';
+
+export const SetupForm = (props) => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const navigate = useNavigate();
+
     const [name, setName] = React.useState(null);
     const [limitPlayers, setLimitPlayers] = React.useState(false);
     const [numberOfPlayers, setNumberOfPlayers] = React.useState(0);
@@ -47,7 +49,6 @@ export const SetupForm = () => {
         { id: 8, text: 'Opp Match Win %', value: 'opponent match win percentage' },
         { id: 9, text: 'Opp Opp Match Win %', value: 'opponent opponent match win percentage' }
     ]);
-    const [tournament, setTournament] = useGlobalState('tournament');
 
     React.useEffect(() => {
         setDraggableTiebreaks(format !== null && (format.includes('Swiss') || format.includes('Round Robin')));
@@ -82,29 +83,29 @@ export const SetupForm = () => {
         }
         if (winValue !== 1) {
             Object.assign(options, {
-                'pointsForWin': winValue
+                'pointsForWin': winValue === null ? 1 : winValue
             });
         }
         if (drawValue !== 0.5) {
             Object.assign(options, {
-                'pointsForDraw': drawValue
+                'pointsForDraw': drawValue === null ? 0.5 : drawValue
             });
         }
         if (!format.includes('Elimination')) {
             Object.assign(options, {
-                'bestOf': bestOf,
+                'bestOf': bestOf === null ? 1 : bestOf,
                 'playoffs': playoffs.toLowerCase()
             });
             if (byeValue !== 1) {
                 Object.assign(options, {
-                    'pointsForBye': byeValue
+                    'pointsForBye': byeValue === null ? 1 : byeValue
                 });
             }
             if (playoffs !== 'None') {
                 Object.assign(options, {
                     'cut': {
                         'type': cutType.toLowerCase(),
-                        'limit': cutLimit < 0 ? 0 : cutLimit
+                        'limit': cutLimit < 0 || cutLimit === null ? 0 : cutLimit
                     }
                 });
             }
@@ -115,7 +116,7 @@ export const SetupForm = () => {
             }
             if (format === 'Swiss' && roundLimit === true && numberOfRounds > 0) {
                 Object.assign(options, {
-                    'rounds': numberOfRounds
+                    'rounds': numberOfRounds === null ? 0 : numberOfRounds
                 });
             }
         }
@@ -129,9 +130,10 @@ export const SetupForm = () => {
                 'double': true
             });
         }
-        const newTournament = Manager['newTournament'](options);
-        setTournament(newTournament);
-        navigate('../fostr');
+        const manager = new TournamentOrganizer();
+        const newTournament = manager.newTournament(options);
+        props.setTournament(newTournament);
+        navigate('../fostr/meta');
     }
 
     return (
@@ -160,7 +162,7 @@ export const SetupForm = () => {
                 autoSelect={true}
                 disableClearable={true}
                 onChange={(e,v) => setFormat(v)}
-                options={['Elimination', 'Double Elimination', 'Swiss', 'Round Robin', 'Double Round Robin']}
+                options={['Single Elimination', 'Double Elimination', 'Swiss', 'Round Robin', 'Double Round Robin']}
                 renderInput={params => <TextField {...params} label='Format' variant='standard' required={true} />}
             />
             <Box
@@ -240,7 +242,7 @@ export const SetupForm = () => {
                     defaultValue='None'
                     onChange={(e,v) => setPlayoffs(v)}
                     disabled={format === null || format.includes('Elimination')}
-                    options={['None', 'Elimination', 'Double Elimination']}
+                    options={['None', 'Single Elimination', 'Double Elimination']}
                     renderInput={params => <TextField {...params} label='Playoffs Format' variant='standard' required={true} />}
                 />
             </Box>
@@ -340,7 +342,7 @@ export const SetupForm = () => {
             </Box>
             <Button
                 disableRipple={true}
-                onClick={() => handleSubmit()}
+                onClick={handleSubmit}
             >
                 Create Tournament
             </Button>

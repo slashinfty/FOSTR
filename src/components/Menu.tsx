@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
 import {
     Box,
     Divider,
@@ -11,9 +12,16 @@ import {
 import { useTheme } from '@mui/material/styles';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
+declare const window: any;
+
 export const Menu = (props) => {
     const theme = useTheme();
     const colorMode = props.colorMode;
+    const navigate = useNavigate();
+
+    const handleQuit = async () => {
+        await window.electron.quit();
+    }
 
     return (
         <Drawer
@@ -32,7 +40,12 @@ export const Menu = (props) => {
                     </ListItem>
                     <Divider />
                     <ListItem>
-                        <ListItemButton>
+                        <ListItemButton
+                            onClick={() => {
+                                props.setOpenDrawer(false);
+                                navigate('/fostr/meta');
+                            }}
+                        >
                             <ListItemText primary='Metadata' />
                         </ListItemButton>
                     </ListItem>
@@ -86,7 +99,9 @@ export const Menu = (props) => {
                         </ListItemButton>
                     </ListItem>
                     <ListItem>
-                        <ListItemButton>
+                        <ListItemButton
+                            onClick={handleQuit}
+                        >
                             <ListItemText primary='Quit FOSTR' />
                         </ListItemButton>
                     </ListItem>

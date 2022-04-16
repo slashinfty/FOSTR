@@ -4,7 +4,6 @@ import {
     Box,
     Container
 } from '@mui/material';
-import useGlobalState from '@vighnesh153/use-global-state';
 
 import { Header } from './Header';
 import { Menu } from './Menu';
@@ -12,9 +11,8 @@ import { Menu } from './Menu';
 export const Wrapper = (props) => {
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const [appBarText, setAppBarText] = React.useState('FOSTR');
-    const [tournament, setTournament] = useGlobalState('tournament');
-
-    React.useEffect(() => console.log(tournament));
+    const tournament = props.tournament;
+    const setTournament = props.setTournament;
 
     return(
         <Container>
@@ -28,7 +26,7 @@ export const Wrapper = (props) => {
                 appBarText={appBarText}
             />
             <Box>
-                <Outlet context={[appBarText, setAppBarText]}/>
+                <Outlet context={[appBarText, setAppBarText, tournament, setTournament]} />
             </Box>
         </Container>
     )

@@ -48,6 +48,7 @@ const createWindow = () => {
 
 app.on('ready', () => {
     ipcMain.handle('loadTournament', loadTournament);
+    ipcMain.handle('quit', app.quit);
     if (process.env.NODE_ENV === 'development') {
         installExtension(REACT_DEVELOPER_TOOLS);
     }

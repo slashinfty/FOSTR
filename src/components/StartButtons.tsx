@@ -4,13 +4,10 @@ import {
     Box,
     Button
 } from '@mui/material';
-import useGlobalState from '@vighnesh153/use-global-state';
 
 declare const window: any;
 
 export const StartButtons = () => {
-    const [tournament, setTournament] = useGlobalState('tournament', {}); //TODO update to saved for continue
-
     const handleLoad = async () => {
         const loadedTournament = await window.electron.loadTournament();
         if (loadedTournament === undefined) {
@@ -45,7 +42,7 @@ export const StartButtons = () => {
             <Button
                 variant='outlined'
                 disableRipple={true}
-                onClick={() => handleLoad()}
+                onClick={handleLoad}
             >
                 Load Tournament
             </Button>
