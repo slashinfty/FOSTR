@@ -14,9 +14,11 @@ import { Meta } from './views/Meta';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
+declare const window: any;
+
 const App = () => {
-    const [tournament, setTournament] = React.useState({}); //TODO default based on stored settings
-    const [mode, setMode] = React.useState<'light' | 'dark'>('light'); //TODO default based on stored settings
+    const [tournament, setTournament] = React.useState({});
+    const [mode, setMode] = React.useState<'light' | 'dark'>('light');
     const colorMode = React.useMemo(
         () => ({
             toggleColorMode: () => setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light')),
@@ -27,6 +29,15 @@ const App = () => {
             palette: { mode }
         }), [mode]
     );
+
+    React.useEffect(() => {
+        const getStore = async (prop) => {
+            const val = await window.electron.store('get', prop);
+            return val;
+        }
+        getStore('mode').then(val => val === undefined ? null : setMode(val));
+        getStore('tournament').then(val => val === undefined ? null : setTournament(val));
+    }, []);
 
     return (
         <ColorModeContext.Provider value={colorMode}>

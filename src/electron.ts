@@ -4,11 +4,22 @@ const {
     dialog,
     ipcMain
 } = require('electron');
+const Store = require('electron-store');
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 const fs = require('fs');
 const path = require('path');
 
+const store = new Store();
 let mainWindow;
+
+const handleStore = (action, prop, value) => {
+    if (action === 'get') {
+        return store.get(prop);
+    } else if (action === 'set') {
+        store.set(prop, value);
+        return;
+    }
+}
 
 const loadTournament = () => {
     const file = dialog.showOpenDialogSync(mainWindow, {
@@ -47,6 +58,9 @@ const createWindow = () => {
 }
 
 app.on('ready', () => {
+    ipcMain.handle('store', (action, prop, value) => {
+        return handleStore(action, prop, value);
+    });
     ipcMain.handle('loadTournament', loadTournament);
     ipcMain.handle('quit', app.quit);
     if (process.env.NODE_ENV === 'development') {

@@ -52,7 +52,7 @@ export const SetupForm = (props) => {
 
     React.useEffect(() => {
         setDraggableTiebreaks(format !== null && (format.includes('Swiss') || format.includes('Round Robin')));
-    });
+    }, [format]);
 
     const handleSubmit = () => {
         const snack = text => {

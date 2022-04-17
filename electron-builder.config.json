@@ -2,6 +2,7 @@
   "appId": "com.electron.fostr",
   "productName": "FOSTR",
   "copyright": "GNU General Public License v3.0",
+  "artifactName": "${productName}-v${version}-${os}.${ext}",
   "files": [
     "node_modules/**/*",
     "build/**/*"
